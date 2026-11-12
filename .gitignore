@@ -1,0 +1,8 @@
+.env
+*.env
+.env.*
+
+scan-result.json
+scan-result.sarif
+__pycache__/
+*.pyc
