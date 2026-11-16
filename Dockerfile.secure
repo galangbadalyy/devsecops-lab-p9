@@ -1,27 +1,38 @@
-# STAGE 1: Build
+# STAGE 1: Build stage - instal dependency
 FROM python:3.12-alpine AS builder
 
+# Set workdir dari awal
 WORKDIR /build
 
+# Copy hanya file yang diperlukan
 COPY requirements.txt .
 
+# Install dependency dan bersihkan cache
 RUN pip install --no-cache-dir --user -r requirements.txt
 
-# STAGE 2: Runtime
+# STAGE 2: Runtime stage - image final minimal
 FROM python:3.12-alpine AS runtime
 
+# Buat non-root user
 RUN addgroup -g 1001 -S appgroup && \
     adduser -u 1001 -S appuser -G appgroup
 
+# Set workdir
 WORKDIR /app
 
+# Copy dependency dari build stage
 COPY --from=builder /root/.local /home/appuser/.local
 
+# Copy hanya source code yang diperlukan
 COPY --chown=appuser:appgroup app.py .
 
+# Credential tidak boleh di-hardcode di sini
+
+# Jalankan sebagai non-root user
 USER appuser
 
+# Expose port
 EXPOSE 8080
 
-ENTRYPOINT ["python3"]
-CMD ["app.py"]
+# ENTRYPOINT dan CMD
+CMD ["python3", "app.py"]
