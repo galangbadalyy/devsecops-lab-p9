@@ -1,4 +1,4 @@
-# Credential dan config rahasia
+# Credential dan konfigurasi rahasia
 .env
 *.env
 .env.*
@@ -21,7 +21,15 @@ __pycache__/
 tests/
 *.test.py
 
+# Log
+*.log
+
+# Dependensi Node.js
+node_modules/
+
 # Dokumentasi
 docs/
 README.md
+
+# Dockerfile
 Dockerfile*
